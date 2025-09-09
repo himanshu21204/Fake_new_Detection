@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Result - Fake News Detector</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3a0ca3;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --gray: #6c757d;
+      --border-radius: 16px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: var(--dark);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 700px;
+      background: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+    .container:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); }
+
+    .header {
+      background: linear-gradient(120deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .result-container { padding: 30px; }
+    .result-header { margin-bottom: 25px; text-align: center; }
+
+    .result-content {
+      background: #f8f9fa;
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-bottom: 25px;
+      text-align: left;
+    }
+    .result-content p { margin-bottom: 15px; line-height: 1.6; }
+    .result-content strong { color: var(--dark); }
+
+    .prediction {
+      padding: 25px;
+      border-radius: var(--border-radius);
+      margin-bottom: 30px;
+      background: linear-gradient(120deg, var(--success), #2a9d8f);
+      color: white;
+      text-align: center;
+    }
+    .prediction.fake { background: linear-gradient(120deg, var(--danger), #e63946); }
+
+    .prediction h2 { font-size: 1.8rem; margin-bottom: 10px; }
+    .confidence { font-size: 1.3rem; font-weight: 600; margin-top: 10px; }
+
+    .actions { text-align: center; }
+    .back-btn {
+      display: inline-block;
+      padding: 14px 28px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .back-btn:hover { background: var(--secondary); transform: translateY(-2px); }
+
+    @media (max-width: 576px) {
+      .container { border-radius: 10px; }
+      .header { padding: 20px 15px; }
+      .header h1 { font-size: 1.8rem; }
+      .result-container { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-clipboard-check"></i> Prediction Result</h1>
+    </div>
+    
+    <div class="result-container">
+      <div class="result-header">
+        <h2>Analysis Complete</h2>
+        <p>Here are the results for your news article</p>
+      </div>
+      
+      <div class="result-content">
+        <p><strong>Title:</strong> {{ title }}</p>
+        <p><strong>Content:</strong> {{ text }}</p>
+      </div>
+      
+      <div class="prediction {{ 'fake' if label == 'Fake News' else 'real' }}">
+        <h2><i class="fas fa-{{ 'times-circle' if label == 'Fake News' else 'check-circle' }}"></i> {{ label }}</h2>
+        <p>Our analysis indicates this news is <strong>{{ label }}</strong></p>
+      </div>
+      
+      <div class="actions">
+        <a href="{{ url_for('home') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Check Another Article</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
